@@ -66,6 +66,7 @@ function authenticate(req, res, next) {
 
 // Notice how we export the router _and_ the `authenticate` middleware!
 module.exports = {
-  router,
-  authenticate,
-};
+    router,
+    authenticate,
+  };
+  

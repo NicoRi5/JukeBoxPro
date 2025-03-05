@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { authenticate } = require("./auth.js");
-const prisma = (require = require("../prisma"));
+const prisma = require("../prisma");
 
 router.get("/playlists", authenticate, async (req, res, next) => {
   const playlists = await prisma.playlist.findMany({
@@ -29,19 +29,19 @@ router.post("/playlists", authenticate, async (req, res) => {
 
 router.get("/playlists/:id", authenticate, async (req, res) => {
   const { id } = req.params;
-  
-    const playlist = await prisma.playlist.findUnique({
-      where: { id: parseInt(id) },
-      include: {
-        tracks: true,
-      },
+
+  const playlist = await prisma.playlist.findUnique({
+    where: { id: parseInt(id) },
+    include: {
+      tracks: true,
+    },
+  });
+  if (playlist.ownerId !== req.user.id) {
+    return res.status(403).json({
+      error: "Forbidden! Logged in user does not own this playlist!",
     });
-    if (playlist.ownerId !== req.user.id) {
-      return res.status(403).json({
-        error: "Forbidden! Logged in user does not own this playlist!",
-      });
-    }
-    res.json(playlist);
+  }
+  res.json(playlist);
 });
 
 module.exports = router;

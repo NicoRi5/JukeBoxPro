@@ -25,3 +25,4 @@ router.get("/tracks/:id", async (req, res) => {
   }
   res.json(track);
 });
+module.exports = router;
