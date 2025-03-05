@@ -17,7 +17,7 @@ const prisma = new PrismaClient().$extends({
         });
         const valid = await bcrypt.compare(password, user.password);
         if (!valid) throw Error("Invalid password");
-        return customer;
+        return user;
       },
     },
   },
